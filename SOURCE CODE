@@ -1,0 +1,131 @@
+                                 4. SOURCE CODE
+
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX_TOWERS 5
+#define MAX_ENEMIES 5
+// -------- GAME STATES --------
+typedef enum {
+MENU,
+PLAYING,
+GAME_OVER
+} GameState;
+// -------- TOWER TYPES --------
+typedef enum {
+ARCHER = 1,
+CANNON
+} TowerType;
+
+// -------- STRUCTURES --------
+typedef struct {
+TowerType type;
+int damage;
+int level;
+} Tower;
+typedef struct {
+int health;
+int alive;
+} Enemy;
+// -------- FUNCTION PROTOTYPES -
+void showMenu();
+void placeTowers(Tower towers[], int *towerCount, int *money);
+void spawnEnemies(Enemy enemies[], int wave, int baseHealth);
+void updateGame(Tower towers[], int towerCount, Enemy enemies[],
+int enemyCount, int *money, int *baseHealth);
+void renderGame(int wave, int money, int baseHealth);
+int totalTowerDamage(Tower towers[], int towerCount);
+int main() {
+GameState state = MENU;
+Tower towers[MAX_TOWERS];
+Enemy enemies[MAX_ENEMIES];
+int towerCount = 0;
+int wave = 1;
+int money = 100;
+int baseHealth = 5;
+int baseEnemyHealth = 30;
+
+while (state != GAME_OVER) {
+// -------- INPUT --------
+if (state == MENU) {
+showMenu();
+state = PLAYING;
+}
+if (state == PLAYING) {
+renderGame(wave, money, baseHealth);
+placeTowers(towers, &towerCount, &money);
+spawnEnemies(enemies, wave, baseEnemyHealth);
+updateGame(towers, towerCount, enemies,
+wave + 1, &money, &baseHealth);
+if (baseHealth <= 0) {
+state = GAME_OVER;
+} else {
+wave++;
+}
+}
+}
+printf("\n💀 GAME OVER! You survived until Wave %d\n", wave);
+return 0;
+}
+// -------- FUNCTIONS --------
+void showMenu() {
+printf("===== TOWER DEFENCE GAME =====\n");
+printf("Defend your base from incoming enemies!\n");
+printf("Press Enter to start...");
+getchar();
+}
+void placeTowers(Tower towers[], int *towerCount, int *money) {
+int choice;
+if (*towerCount >= MAX_TOWERS) return;
+printf("\nMoney: %d\n", *money);
+printf("1. Build Archer Tower (Cost: 50)\n");
+printf("2. Build Cannon Tower (Cost: 70)\n");
+printf("0. Skip\n");
+printf("Choice: ");
+scanf("%d", &choice);
+if (choice == 1 && *money >= 50) {
+towers[*towerCount] = (Tower){ARCHER, 10, 1};
+(*towerCount)++;
+*money -= 50;
+}
+else if (choice == 2 && *money >= 70) {
+towers[*towerCount] = (Tower){CANNON, 18, 1};
+(*towerCount)++;
+*money -= 70;
+}
+}
+void spawnEnemies(Enemy enemies[], int wave, int baseHealth) {
+for (int i = 0; i < wave + 1; i++) {
+enemies[i].health = baseHealth + (wave * 10);
+enemies[i].alive = 1;
+}
+}
+void updateGame(Tower towers[], int towerCount, Enemy enemies[],
+int enemyCount, int *money, int *baseHealth) {
+int damage = totalTowerDamage(towers, towerCount);
+for (int i = 0; i < enemyCount; i++) {
+if (!enemies[i].alive) continue;
+enemies[i].health -= damage;
+if (enemies[i].health <= 0) {
+enemies[i].alive = 0;
+*money += 20;
+printf("Enemy defeated! +20 money\n");
+} else {
+(*baseHealth)--;
+printf("Enemy reached base! Base health: %d\n", *baseHealth);
+}
+}
+}
+ Void renderGame(int wave, int         money, int baseHealth) {
+printf("\n---------------------------\n");
+printf("Wave: %d | Money: %d | Base Health: %d\n",
+wave, money, baseHealth);
+printf("-------------------------\n");
+}
+int totalTowerDamage(Tower towers[], int towerCount) {
+int total = 0;
+for (int i = 0; i < towerCount; i++) {
+total += towers[i].damage;
+}
+return total;
+}
+
