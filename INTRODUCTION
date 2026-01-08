@@ -1,0 +1,24 @@
+                   1. INTRODUCTION 
+The core elements of a space shooter game in C include: 
+Game Loop: The game uses a simple while-loop game loop where the program repeatedly 
+processes input, updates the game state, and renders output each wave until the base health 
+reaches zero and the game enters the GAME_OVER state 
+Player Control: The player control used to run the game is 
+ Pressing Enter to start the game from the menu 
+ Typing a number (0, 1, or 2) and pressing Enter to choose whether to build a tower or skip 
+during each wave 
+So, the player controls the game by entering numeric choices through the keyboard using scanf 
+and getchar 
+Objects and Variables: The game uses Tower and Enemy objects (structures) to represent 
+defence and attackers, and variables such as state, wave, money, baseHealth, base Enemy Health, 
+and tower Count to control the game flow, progression, and player resources. 
+Rendering: is done by printing the current game information to the console, specifically 
+displaying the wave number, player money, and base health using printf 
+Console I/O: Simple text-based representation within the console window. 
+Collision Detection: This game does not implement collision detection, because enemies and 
+towers are not positioned in a coordinate system; instead, all tower damage is applied directly to 
+all enemies each wave without checking positions  
+Game State Management: The game manages its state using the Game State num (MENU, 
+PLAYING, GAME_OVER) and a variable state that controls which part of the game loop runs, 
+allowing the program to switch between showing the menu, playing the game, and ending the game 
+when the base health reaches zero. 
