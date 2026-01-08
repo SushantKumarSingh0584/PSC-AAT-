@@ -1,0 +1,30 @@
+                                       2. ALGORITHM 
+Step 1: Start the Game 
+Set state = MENU 
+Set wave = 1 
+Set money = 100 
+Set baseHealth = 5 
+Set baseEnemyHealth = 30 
+Set towerCount = 0 
+Create arrays: 
+Towers[MAX_TOWERS] 
+enemies[MAX_ENEMIES] 
+Step 2: Display Menu 
+Display game title and instructions 
+Wait for user to press Enter 
+Change game state to PLAYING 
+Step 3: Game Loop (Repeat until state = GAME_OVER) 
+Step 4: Render Game Status 
+Step 5: Display- 
+Current wave number 
+Available money 
+Base health 
+Step 6: Tower Placement 
+If towerCount < MAX_TOWERS:
+Display tower options:Set state = GAME_OVER 
+Else: 
+Increase wave number by 1 
+Step 7: End Game 
+Display "GAME OVER" 
+Display final wave reached
+Step 8: Stop 
